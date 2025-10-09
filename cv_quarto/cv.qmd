@@ -1,0 +1,78 @@
+---
+author: Théodore Proulx
+title: Maîtrise Politique Internationale
+tagline: 
+  field1: Théodore Proulx
+  field2: Maîtrise Politique Internationale
+  field3: Québec, Canada
+  colored: theodoreproulx1@gmail.com
+  field5: Québec, Canada
+format:
+  modern-cv-pdf: default
+cvfooter:
+  left: "Automne 2025"
+cvcolor: 	FF9600 #without `#`
+bgcolor: 616161
+cvfont: raleway #texlive fonts like raleway,fetamont,gillius,comfortaa
+cvmeta:
+  - title: Occupation
+    text: Étudiant à la maîtrise en Politique Internationale
+  - title: Domaine
+    text: Science Politique
+execute:
+  echo: false
+---
+
+```{r}
+#| label: cvevents
+cvevents <- function(tbl, when, what, where, para1,para2) {
+
+    command_start <- "\\cvevent"
+
+    res <- paste0(
+        command_start, "{", tbl[[when]], "}", 
+        "{", tbl[[what]], "}",
+        "{", tbl[[where]], "}",
+        "{", tbl[[para1]], "}",
+        "{", tbl[[para2]], "}"
+        )
+
+    cat(res, sep = "\n")
+}
+```
+
+
+# Experience
+
+
+```{r}
+#| label: expérience
+#| output: asis
+tibble::tribble(
+    ~role, ~institution, ~dates, 
+    "Auxiliaire administratif", "Université Laval", "depuis 09/25",
+    "Commis à l'accueil et à l'information", "Université Laval", "07/25 - 09/25",
+    "Préposé à l'entretien ménager: hygiène et salubrité", "CHU de Québec", "étés 2021 à 2023",
+    "Commis aux fruits et légumes", "IGA Raymond Rousseau", " 06/20-02/21",
+    "Commis et Caissier", "Renaud-Bray", "06/18 - 06/19",
+    "Préposé à l'accueil et guide touristique", "Fondation Maison Plamondon", "05/17-08/17"
+) |>
+    cvevents(when = "dates", what = "role", where = "institution", para1 = "para1", para2 = "para2")
+```
+
+# Education
+
+```{r }
+#| label: education
+#| output: asis
+tibble::tribble(
+  ~degree, ~uni, ~loc, ~dates, ~para1, ~para2,
+  "D.E.S", "École Secondaire Louis-Jobin", "Saint-Raymond", "2014 - 2018", NA, NA,
+  "D.E.C Sciences Humaines", "Cégep de Sainte-Foy", "Québec", "2018 - 2021", NA, NA,
+  "Baccalauréat Relations Internationales (en anglais)", 
+  "Adam Miczkiewicz University", "Poznan, Pologne", "2022 - 2025", 
+  "Thèse: Emergence in Theories of International Relations", 
+  "Membre du club scientifique de relations internationales; communications aux conférences Beyond Europe (2024) et Neoliberal Decline (2025)"
+) |>
+  cvevents(when = "dates", what = "degree", where = "loc", para1 = "para1", para2 = "para2")
+```
