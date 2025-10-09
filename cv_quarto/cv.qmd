@@ -11,8 +11,8 @@ format:
   modern-cv-pdf: default
 cvfooter:
   left: "Automne 2025"
-cvcolor: 	FF9600 #without `#`
-bgcolor: 616161
+cvcolor:  FF9600 #without `#`
+bgcolor: 03386e 
 cvfont: raleway #texlive fonts like raleway,fetamont,gillius,comfortaa
 cvmeta:
   - title: Occupation
@@ -42,33 +42,33 @@ cvevents <- function(tbl, when, what, where, para1,para2) {
 ```
 
 
-# Experience
+# Expérience
 
 
 ```{r}
 #| label: expérience
 #| output: asis
 tibble::tribble(
-    ~role, ~institution, ~dates, 
-    "Auxiliaire administratif", "Université Laval", "depuis 09/25",
-    "Commis à l'accueil et à l'information", "Université Laval", "07/25 - 09/25",
-    "Préposé à l'entretien ménager: hygiène et salubrité", "CHU de Québec", "étés 2021 à 2023",
-    "Commis aux fruits et légumes", "IGA Raymond Rousseau", " 06/20-02/21",
-    "Commis et Caissier", "Renaud-Bray", "06/18 - 06/19",
-    "Préposé à l'accueil et guide touristique", "Fondation Maison Plamondon", "05/17-08/17"
+    ~role, ~institution, ~dates, ~para1, ~para2,
+    "Auxiliaire administratif", "Université Laval", "depuis 09/25", "Gestion de matériel", "Placement de salles",
+    "Commis à l'accueil et à l'information", "Université Laval", "07/25 - 09/25", "Vente de Permis", "Service à la clientèle",
+    "Préposé à l'entretien ménager: hygiène et salubrité", "CHU de Québec", "étés 2021-2023", "Entretien de milieu hospitalier", "Nettoyage de salles",
+    "Commis aux fruits et légumes", "IGA Raymond Rousseau", " 06/20-02/21", "Placement de produits alimentaires", "Service à la clientèle",
+    "Commis et Caissier", "Renaud-Bray", "06/18 - 06/19", "Gestion de caisse", "Recommandations littéraires",
+    "Préposé à l'accueil et guide touristique", "Fondation Maison Plamondon", "05/17-08/17", "Visites guidées", "Entretien de l'exposition",
 ) |>
     cvevents(when = "dates", what = "role", where = "institution", para1 = "para1", para2 = "para2")
 ```
 
-# Education
+# Éducation
 
 ```{r }
 #| label: education
 #| output: asis
 tibble::tribble(
   ~degree, ~uni, ~loc, ~dates, ~para1, ~para2,
-  "D.E.S", "École Secondaire Louis-Jobin", "Saint-Raymond", "2014 - 2018", NA, NA,
-  "D.E.C Sciences Humaines", "Cégep de Sainte-Foy", "Québec", "2018 - 2021", NA, NA,
+  "D.E.S École secondaire Louis-Jobin", "École Secondaire Louis-Jobin", "Saint-Raymond", "2014 - 2018", "", "",
+  "D.E.C Cégep de Sainte-Foy", "Cégep de Sainte-Foy", "Québec", "2018 - 2021", "Diplôme de Sciences Humaines", "Diplôme de Musique sans mention",
   "Baccalauréat Relations Internationales (en anglais)", 
   "Adam Miczkiewicz University", "Poznan, Pologne", "2022 - 2025", 
   "Thèse: Emergence in Theories of International Relations", 
