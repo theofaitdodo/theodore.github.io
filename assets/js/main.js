@@ -157,16 +157,14 @@
 		});
 
 })(jQuery);
-// === Toggle collapsible header ===
-document.addEventListener('DOMContentLoaded', () => {
-  const toggleBtn = document.getElementById('header-toggle');
-  const header = document.getElementById('header');
-  const body = document.body;
 
-  if (toggleBtn && header) {
-    toggleBtn.addEventListener('click', () => {
-      header.classList.toggle('collapsed');
-      body.classList.toggle('header-collapsed');
-    });
+const header = document.querySelector('header');
+const toggleButton = document.querySelector('#toggleHeader');
+
+toggleButton.addEventListener('click', () => {
+  if (header.style.display === 'none') {
+    header.style.display = 'block';
+  } else {
+    header.style.display = 'none';
   }
 });
