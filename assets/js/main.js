@@ -157,3 +157,16 @@
 		});
 
 })(jQuery);
+// === Toggle collapsible header ===
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('header-toggle');
+  const header = document.getElementById('header');
+  const body = document.body;
+
+  if (toggleBtn && header) {
+    toggleBtn.addEventListener('click', () => {
+      header.classList.toggle('collapsed');
+      body.classList.toggle('header-collapsed');
+    });
+  }
+});

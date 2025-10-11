@@ -3449,3 +3449,35 @@ input[type="button"]:disabled,
     padding: 0;
   }
 }
+/* === Sidebar Toggle Button === */
+#header-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: #ff9600;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 2000;
+  transition: background 0.3s;
+}
+
+#header-toggle:hover {
+  background: #e57e00;
+}
+
+/* Collapse animation for the left header */
+#header.collapsed {
+  transform: translateX(-260px); /* adjust if your header width is different */
+  transition: transform 0.3s ease;
+}
+
+/* Shift main content when collapsed */
+body.header-collapsed #wrapper {
+  margin-left: 0 !important;
+  transition: margin 0.3s ease;
+}
+
