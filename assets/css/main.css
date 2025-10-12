@@ -3449,3 +3449,44 @@ input[type="button"]:disabled,
     padding: 0;
   }
 }
+
+/* Custom styles for toggle button and header visibility */
+
+#header-toggle {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    z-index: 10003;
+    background: none;
+    border: none;
+    color: #4c839e; /* default color */
+    font-size: 2em;
+    cursor: pointer;
+    transition: color 0.5s ease;
+}
+
+body.header-visible #header-toggle {
+    color: white; /* color when header is visible */
+}
+
+@media screen and (max-width: 1024px) {
+    #header-toggle {
+        display: none;
+    }
+}
+
+body:not(.header-visible) #header {
+    transform: translateX(100%);
+}
+
+body:not(.header-visible) #wrapper {
+    padding-right: 0;
+}
+
+#header {
+    transition: transform 0.5s ease;
+}
+
+#wrapper {
+    transition: padding-right 0.5s ease;
+}

@@ -161,6 +161,7 @@
 const header = document.querySelector('#header');
 const toggleButton = document.querySelector('#header-toggle');
 
-toggleButton.addEventListener('click', () => {
-  header.classList.toggle('header-visible');
+toggleButton.addEventListener('click', (event) => {
+  event.stopPropagation();
+  document.body.classList.toggle('header-visible');
 });
