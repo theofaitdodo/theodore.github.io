@@ -7,43 +7,27 @@
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
-    <link rel="stylesheet" href="assets/css/main.css" />
     <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
       #chartdiv {
         width: 100%;
-        height: 500px;
-      }
-      .map-popup {
-        font-size: 16px;
-        color: #000000;
-        background-color: #f0f0f0;
-        border: 3px solid black;
-        border-radius: 10px;
-        padding: 10px;
+        height: 100%;
       }
     </style>
   </head>
-  <body class="is-preload">
-    <!-- Wrapper -->
-    <div id="wrapper">
-      <!-- Main -->
-      <div id="main">
-        <section id="one">
-          <div class="container">
-            <header class="major">
-              <h2>Carte Interactive du Québec</h2>
-            </header>
-            <div id="chartdiv"></div>
-          </div>
-        </section>
-      </div>
-    </div>
+  <body>
+    <div id="chartdiv"></div>
 
     <!-- amCharts 5 -->
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/canadaLow.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
     <script>
@@ -61,16 +45,31 @@
           am5map.MapChart.new(root, {
             panX: "rotateX",
             panY: "rotateY",
-            projection: am5map.geoMercator(),
+            projection: am5map.geoOrthographic(),
           })
         );
 
-        // Create polygon series for USA
-        var usaSeries = chart.series.push(
+        chart.animate({
+          key: "rotationX",
+          from: 0,
+          to: 70,
+          duration: 1000,
+          easing: am5.ease.inOut(am5.ease.cubic)
+        });
+        chart.animate({
+          key: "rotationY",
+          from: 0,
+          to: -53,
+          duration: 1000,
+          easing: am5.ease.inOut(am5.ease.cubic)
+        });
+
+        // Create polygon series for the world
+        var worldSeries = chart.series.push(
           am5map.MapPolygonSeries.new(root, {
-            geoJSON: am5geodata_usaLow,
-            fill: am5.color(0xffffff),
-            stroke: am5.color(0x000000),
+            geoJSON: am5geodata_worldLow,
+            exclude: ["AQ", "CA"], // Exclude Antarctica and Canada
+            fill: am5.color(0xcccccc), // Grey color for the world
           })
         );
 
@@ -79,7 +78,7 @@
           am5map.MapPolygonSeries.new(root, {
             geoJSON: am5geodata_canadaLow,
             include: ["CA-AB", "CA-BC", "CA-MB", "CA-NB", "CA-NL", "CA-NS", "CA-NT", "CA-NU", "CA-ON", "CA-PE", "CA-SK", "CA-YT"],
-            fill: am5.color(0xffffff),
+            fill: am5.color(0xffcccb),
             stroke: am5.color(0x000000),
           })
         );
