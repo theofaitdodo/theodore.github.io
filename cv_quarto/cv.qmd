@@ -17,8 +17,15 @@ cvfont: raleway #texlive fonts like raleway,fetamont,gillius,comfortaa
 cvmeta:
   - title: Occupation
     text: Étudiant à la maîtrise en Politique Internationale
+  - title: Courriel
+    text: theodoreproulx1@gmail.com 
   - title: Domaine
     text: Science Politique
+  - title: Langues
+    text: Français, Anglais (professionel + IELTS score 8 / C1), Polonais (Intermédiaire), Espagnol (Débutant), Ukrainien (Débutant)
+  - title: Aptitudes
+    text: Travaillant, débrouillard, persévérant, sens de l’initiative, responsable, autonome, créatif, méthodique
+ 
 execute:
   echo: false
 ---
