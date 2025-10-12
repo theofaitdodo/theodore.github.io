@@ -158,13 +158,9 @@
 
 })(jQuery);
 
-const header = document.querySelector('header');
-const toggleButton = document.querySelector('#toggleHeader');
+const header = document.querySelector('#header');
+const toggleButton = document.querySelector('#header-toggle');
 
 toggleButton.addEventListener('click', () => {
-  if (header.style.display === 'none') {
-    header.style.display = 'block';
-  } else {
-    header.style.display = 'none';
-  }
+  header.classList.toggle('header-visible');
 });
