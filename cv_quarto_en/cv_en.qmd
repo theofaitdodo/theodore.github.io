@@ -1,0 +1,83 @@
+---
+author: Théodore Proulx
+title: ""
+tagline: 
+  field1: Théodore Proulx
+  field2: Master's Degree in International Politics
+  field3: Québec, Canada
+  colored: theodoreproulx1@gmail.com
+format:
+  modern-cv-pdf: default
+cvfooter:
+  left: "Fall 2025"
+cvcolor:  FF9600 #without `#`
+bgcolor: 03386e 
+cvfont: raleway #texlive fonts like raleway,fetamont,gillius,comfortaa
+cvmeta:
+  - title: Status
+    text: Master's student in International Politics
+  - title: Email
+    text: theodoreproulx1@gmail.com 
+  - title: Field
+    text: Political Science
+  - title: Languages
+    text: French, English (professional, IELTS score 8 / C1), Polish (intermediate), Spanish (beginner), Ukrainian (beginner)
+  - title: Skills
+    text: Hardworking, resourceful, persistent, proactive, responsible, independent, creative, methodical
+ 
+execute:
+  echo: false
+---
+
+```{r}
+#| label: cvevents
+cvevents <- function(tbl, when, what, where, para1,para2) {
+
+    command_start <- "\\cvevent"
+
+    res <- paste0(
+        command_start, "{", tbl[[when]], "}", 
+        "{", tbl[[what]], "}",
+        "{", tbl[[where]], "}",
+        "{", tbl[[para1]], "}",
+        "{", tbl[[para2]], "}"
+        )
+
+    cat(res, sep = "\n")
+}
+```
+
+
+# Experience
+
+
+```{r}
+#| label: experience
+#| output: asis
+tibble::tribble(
+    ~role, ~institution, ~dates, ~para1, ~para2,
+   "Administrative assistant", "Université Laval", "since 09/25", "Material management", "Room setup",
+"Front desk and information clerk", "Université Laval", "07/24 - 09/24", "Permit sales", "Customer service",
+"Hospital attendant: hygiene and sanitation", "CHU de Québec", "summers 2021–2023", "Hospital environment maintenance", "Room cleaning",
+"Produce clerk", "IGA Raymond Rousseau", "06/20–02/21", "Food product placement", "Customer service",
+"Sales clerk and cashier", "Renaud-Bray", "06/18 – 06/19", "Cash management", "Literary recommendations",
+"Receptionist and tour guide", "Fondation Maison Plamondon", "05/17–08/17", "Guided tours", "Exhibit maintenance",
+) |>
+    cvevents(when = "dates", what = "role", where = "institution", para1 = "para1", para2 = "para2")
+```
+
+# Education
+
+```{r }
+#| label: Education
+#| output: asis
+tibble::tribble(
+  ~degree, ~uni, ~loc, ~dates, ~para1, ~para2,
+  "Bachelor’s in International Relations",
+"Adam Mickiewicz University", "Poznań, Poland", "2022 – 2025",
+"Thesis: Emergence in Theories of International Relations",
+"Member of the International Relations Scientific Club; presentations at the Beyond Europe (2024) and Neoliberal Decline (2025) conferences",
+"D.E.C. Cégep de Sainte-Foy", "Cégep de Sainte-Foy", "Québec", "2018 – 2021", "Diploma in Social Sciences", "Diploma in Music (no distinction)"
+) |>
+  cvevents(when = "dates", what = "degree", where = "loc", para1 = "para1", para2 = "para2")
+```

@@ -1,6 +1,6 @@
 ---
 author: Théodore Proulx
-title: Maîtrise Politique Internationale
+title: ""
 tagline: 
   field1: Théodore Proulx
   field2: Maîtrise Politique Internationale
@@ -22,7 +22,7 @@ cvmeta:
   - title: Domaine
     text: Science Politique
   - title: Langues
-    text: Français, Anglais (professionel + IELTS score 8 / C1), Polonais (Intermédiaire), Espagnol (Débutant), Ukrainien (Débutant)
+    text: Français, Anglais (professionel, IELTS score 8 / C1), Polonais (Intermédiaire), Espagnol (Débutant), Ukrainien (Débutant)
   - title: Aptitudes
     text: Travaillant, débrouillard, persévérant, sens de l’initiative, responsable, autonome, créatif, méthodique
  
@@ -67,19 +67,18 @@ tibble::tribble(
     cvevents(when = "dates", what = "role", where = "institution", para1 = "para1", para2 = "para2")
 ```
 
-# Éducation
+# Scolarité
 
 ```{r }
-#| label: education
+#| label: Scolarité
 #| output: asis
 tibble::tribble(
   ~degree, ~uni, ~loc, ~dates, ~para1, ~para2,
-  "D.E.S École secondaire Louis-Jobin", "École Secondaire Louis-Jobin", "Saint-Raymond", "2014 - 2018", "", "",
-  "D.E.C Cégep de Sainte-Foy", "Cégep de Sainte-Foy", "Québec", "2018 - 2021", "Diplôme de Sciences Humaines", "Diplôme de Musique sans mention",
   "Baccalauréat Relations Internationales (en anglais)", 
   "Adam Miczkiewicz University", "Poznan, Pologne", "2022 - 2025", 
   "Thèse: Emergence in Theories of International Relations", 
-  "Membre du club scientifique de relations internationales; communications aux conférences Beyond Europe (2024) et Neoliberal Decline (2025)"
+  "Membre du club scientifique de relations internationales; communications aux conférences Beyond Europe (2024) et Neoliberal Decline (2025)",
+  "D.E.C Cégep de Sainte-Foy", "Cégep de Sainte-Foy", "Québec", "2018 - 2021", "Diplôme de Sciences Humaines", "Diplôme de Musique sans mention"
 ) |>
   cvevents(when = "dates", what = "degree", where = "loc", para1 = "para1", para2 = "para2")
 ```
