@@ -58,10 +58,10 @@ tibble::tribble(
     ~role, ~institution, ~dates, ~para1, ~para2,
    "Administrative assistant", "Université Laval", "since 09/25", "Material management", "Room setup",
 "Front desk and information clerk", "Université Laval", "07/24 - 09/24", "Permit sales", "Customer service",
-"Hospital attendant: hygiene and sanitation", "CHU de Québec", "summers 2021–2023", "Hospital environment maintenance", "Room cleaning",
-"Produce clerk", "IGA Raymond Rousseau", "06/20–02/21", "Food product placement", "Customer service",
-"Sales clerk and cashier", "Renaud-Bray", "06/18 – 06/19", "Cash management", "Literary recommendations",
-"Receptionist and tour guide", "Fondation Maison Plamondon", "05/17–08/17", "Guided tours", "Exhibit maintenance",
+"Hospital attendant: hygiene and sanitation", "CHU de Québec", "summers 2021 - 2023", "Hospital environment maintenance", "Room cleaning",
+"Produce clerk", "IGA Raymond Rousseau", "06/20 - 02/21", "Food product placement", "Customer service",
+"Sales clerk and cashier", "Renaud-Bray", "06/18 - 06/19", "Cash management", "Literary recommendations",
+"Receptionist and tour guide", "Fondation Maison Plamondon", "05/17 - 08/17", "Guided tours", "Exhibit maintenance",
 ) |>
     cvevents(when = "dates", what = "role", where = "institution", para1 = "para1", para2 = "para2")
 ```
@@ -74,10 +74,10 @@ tibble::tribble(
 tibble::tribble(
   ~degree, ~uni, ~loc, ~dates, ~para1, ~para2,
   "Bachelor’s in International Relations",
-"Adam Mickiewicz University", "Poznań, Poland", "2022 – 2025",
+"Adam Mickiewicz University", "Poznan, Poland", "2022 - 2025",
 "Thesis: Emergence in Theories of International Relations",
 "Member of the International Relations Scientific Club; presentations at the Beyond Europe (2024) and Neoliberal Decline (2025) conferences",
-"D.E.C. Cégep de Sainte-Foy", "Cégep de Sainte-Foy", "Québec", "2018 – 2021", "Diploma in Social Sciences", "Diploma in Music (no distinction)"
+"D.E.C. Cégep de Sainte-Foy", "Cégep de Sainte-Foy", "Québec", "2018 - 2021", "Diploma in Social Sciences", "Diploma in Music (no distinction)"
 ) |>
   cvevents(when = "dates", what = "degree", where = "loc", para1 = "para1", para2 = "para2")
 ```
