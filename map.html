@@ -28,6 +28,7 @@
     <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/canadaLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
     <script>
@@ -68,7 +69,7 @@
         var worldSeries = chart.series.push(
           am5map.MapPolygonSeries.new(root, {
             geoJSON: am5geodata_worldLow,
-            exclude: ["AQ", "CA"], // Exclude Antarctica and Canada
+            exclude: ["AQ", "CA", "US"], // Exclude Antarctica, Canada and US
             fill: am5.color(0xcccccc), // Grey color for the world
           })
         );
@@ -78,7 +79,16 @@
           am5map.MapPolygonSeries.new(root, {
             geoJSON: am5geodata_canadaLow,
             include: ["CA-AB", "CA-BC", "CA-MB", "CA-NB", "CA-NL", "CA-NS", "CA-NT", "CA-NU", "CA-ON", "CA-PE", "CA-SK", "CA-YT"],
-            fill: am5.color(0xffcccb),
+            fill: am5.color(0xff6666),
+            stroke: am5.color(0x000000),
+          })
+        );
+
+        // Create polygon series for US
+        var usaSeries = chart.series.push(
+          am5map.MapPolygonSeries.new(root, {
+            geoJSON: am5geodata_usaLow,
+            fill: am5.color(0xd3a6a6),
             stroke: am5.color(0x000000),
           })
         );
@@ -101,10 +111,10 @@
           })
         );
 
-        pointSeries.bullets.push(function () {
+        pointSeries.bullets.push(function (root, series, dataItem) {
           let circle = am5.Circle.new(root, {
             radius: 5,
-            fill: am5.color(0xa50000),
+            fill: am5.color(dataItem.dataContext.color),
             stroke: am5.color(0x000000),
             strokeWidth: 1,
             cursorOverStyle: "pointer",
@@ -114,7 +124,6 @@
                 <ul>
                   <li><b>Population:</b> {population}</li>
                   <li><b>Fondation:</b> {foundation}</li>
-                  <li><b>Économie:</b> {economy}</li>
                 </ul>
               </div>
             `
@@ -136,7 +145,7 @@
             lon: -73.561668,
             population: "1,800,055",
             foundation: "1642",
-            economy: "Intelligence artificielle, jeux vidéo, aérospatiale et le port de Montréal.",
+            color: 0xa50000
           },
           {
             title: "Québec",
@@ -144,15 +153,7 @@
             lon: -71.20806,
             population: "566,066",
             foundation: "1608",
-            economy: "Administration publique, défense, services, commerce, transport et tourisme.",
-          },
-          {
-            title: "Laval",
-            lat: 45.612499,
-            lon: -73.707092,
-            population: "446,369",
-            foundation: "1965",
-            economy: "Sciences de la vie, fabrication, <br>technologies de l'information et de la communication.",
+            color: 0x0000ff
           },
           {
             title: "Gatineau",
@@ -160,15 +161,7 @@
             lon: -75.7016,
             population: "292,281",
             foundation: "2002",
-            economy: "Gouvernement fédéral, secteur de la haute technologie.",
-          },
-          {
-            title: "Longueuil",
-            lat: 45.536945,
-            lon: -73.510712,
-            population: "253,629",
-            foundation: "1848",
-            economy: "Aérospatiale, transport et commerce de détail.",
+            color: 0xa50000
           },
           {
             title: "Sherbrooke",
@@ -176,15 +169,7 @@
             lon: -71.8991,
             population: "175,114",
             foundation: "1818",
-            economy: "Éducation, santé et fabrication.",
-          },
-          {
-            title: "Lévis",
-            lat: 46.75806,
-            lon: -71.24028,
-            population: "154,091",
-            foundation: "1861",
-            economy: "Construction navale, services financiers (Groupe Desjardins) et raffinerie de pétrole.",
+            color: 0xa50000
           },
           {
             title: "Saguenay",
@@ -192,7 +177,7 @@
             lon: -71.0657,
             population: "147,952",
             foundation: "2002",
-            economy: "Industrie de l'aluminium, hydroélectricité et produits du bois.",
+            color: 0xa50000
           },
           {
             title: "Trois-Rivières",
@@ -200,27 +185,202 @@
             lon: -72.55,
             population: "142,598",
             foundation: "1634",
-            economy: "Pâtes et papiers, fabrication et logistique (Port de Trois-Rivières).",
+            color: 0xa50000
           },
           {
-            title: "Terrebonne",
-            lat: 45.7,
-            lon: -73.633,
-            population: "122,098",
-            foundation: "1673",
-            economy: "Économie diversifiée axée sur la fabrication et les services.",
+            title: "Varsovie",
+            lat: 52.2297,
+            lon: 21.0122,
+            population: "1,800,000",
+            foundation: "1300",
+            color: 0xa50000
           },
           {
-            title: "Saint-Jean-sur-Richelieu",
-            lat: 45.316666,
-            lon: -73.26667,
-            population: "100,188",
-            foundation: "1897",
-            economy: "Fabrication (textiles, produits du bois), base militaire et agriculture.",
+            title: "Poznan",
+            lat: 52.4064,
+            lon: 16.9252,
+            population: "546,859",
+            foundation: "1253",
+            color: 0x0000ff
           },
+          {
+            title: "Torun",
+            lat: 53.0138,
+            lon: 18.5981,
+            population: "201,447",
+            foundation: "1233",
+            color: 0xa50000
+          },
+          {
+            title: "Gdansk",
+            lat: 54.3520,
+            lon: 18.6466,
+            population: "470,907",
+            foundation: "997",
+            color: 0xa50000
+          },
+          {
+            title: "Cracovie",
+            lat: 50.0647,
+            lon: 19.9450,
+            population: "779,115",
+            foundation: "7th century",
+            color: 0xa50000
+          },
+          {
+            title: "Wroclaw",
+            lat: 51.1079,
+            lon: 17.0385,
+            population: "641,607",
+            foundation: "940",
+            color: 0xa50000
+          },
+          {
+            title: "Berlin",
+            lat: 52.5200,
+            lon: 13.4050,
+            population: "3,645,000",
+            foundation: "1237",
+            color: 0xa50000
+          },
+          {
+            title: "Prague",
+            lat: 50.0755,
+            lon: 14.4378,
+            population: "1,324,000",
+            foundation: "9th century",
+            color: 0xa50000
+          },
+          {
+            title: "Zadar",
+            lat: 44.1194,
+            lon: 15.2314,
+            population: "75,062",
+            foundation: "9th century BC",
+            color: 0xa50000
+          },
+          {
+            title: "Budapest",
+            lat: 47.4979,
+            lon: 19.0402,
+            population: "1,752,000",
+            foundation: "1873",
+            color: 0xa50000
+          },
+          {
+            title: "Paris",
+            lat: 48.8566,
+            lon: 2.3522,
+            population: "2,141,000",
+            foundation: "3rd century BC",
+            color: 0xa50000
+          },
+          {
+            title: "La Havane",
+            lat: 23.1136,
+            lon: -82.3666,
+            population: "2,130,000",
+            foundation: "1519",
+            color: 0xa50000
+          },
+          {
+            title: "New York",
+            lat: 40.7128,
+            lon: -74.0060,
+            population: "8,399,000",
+            foundation: "1624",
+            color: 0xa50000
+          },
+          {
+            title: "Boston",
+            lat: 42.3601,
+            lon: -71.0589,
+            population: "694,583",
+            foundation: "1630",
+            color: 0xa50000
+          },
+          {
+            title: "Chicago",
+            lat: 41.8781,
+            lon: -87.6298,
+            population: "2,706,000",
+            foundation: "1837",
+            color: 0xa50000
+          },
+          {
+            title: "Fredericton",
+            lat: 45.9636,
+            lon: -66.6431,
+            population: "58,220",
+            foundation: "1785",
+            color: 0xa50000
+          },
+          {
+            title: "Charlottetown",
+            lat: 46.2382,
+            lon: -63.1311,
+            population: "36,094",
+            foundation: "1764",
+            color: 0xa50000
+          },
+          {
+            title: "Burlington",
+            lat: 44.4759,
+            lon: -73.2121,
+            population: "44,743",
+            foundation: "1763",
+            color: 0xa50000
+          },
+          {
+            title: "Bath",
+            lat: 43.9105,
+            lon: -69.8169,
+            population: "8,764",
+            foundation: "1781",
+            color: 0xa50000
+          },
+          {
+            title: "Gaspé",
+            lat: 48.8333,
+            lon: -64.4819,
+            population: "15,063",
+            foundation: "1534",
+            color: 0xa50000
+          },
+          {
+            title: "Tadoussac",
+            lat: 48.1448,
+            lon: -69.7128,
+            population: "814",
+            foundation: "1599",
+            color: 0xa50000
+          },
+          {
+            title: "Rimouski",
+            lat: 48.4488,
+            lon: -68.5240,
+            population: "48,935",
+            foundation: "1696",
+            color: 0xa50000
+          }
         ];
 
         pointSeries.data.setAll(cities);
+
+        // Add legend
+        var legend = chart.children.push(am5.Legend.new(root, {
+          nameField: "name",
+          fillField: "color",
+          strokeField: "color",
+          x: am5.percent(0),
+          y: am5.percent(95),
+          layout: root.horizontalLayout
+        }));
+
+        legend.data.setAll([
+          { name: "Endroits Habités", color: am5.color(0x0000ff) },
+          { name: "Endroits visités", color: am5.color(0xa50000) }
+        ]);
 
         // Add zoom control
         chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
