@@ -1,0 +1,46 @@
+.lang-buttons {
+    position: absolute;
+    top: calc(1em + 1.5cm);
+    left: 1em;
+    z-index: 10001;
+}
+
+section#five .image img {
+    max-width: 42.84%;
+    width: 100%;
+    height: auto;
+}
+
+
+.lang-buttons a {
+    display: inline-block;
+    margin-left: 0.5em;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #ccc;
+}
+
+.lang-buttons a.active {
+    background-color: #ccc;
+    color: #fff;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #2e3141;
+  z-index: 10000;
+}
+
+body {
+    background-image: none;
+}
+
+#banner {
+    background-image: url(../../images/IMG_8055.JPG);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
