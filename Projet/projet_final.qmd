@@ -1,0 +1,248 @@
+---
+title: "L'impact de la libertée de presse sur la perception de la corruption au sein des pays de l'OCDE"
+subtitle: "POL-6078: Outils numériques de recherche en sciences sociales"
+author: "Théodore Proulx"
+lang: fr 
+
+# Options globales pour le code
+code-block-border-left: true   # Bordure à gauche des blocs de code
+code-overflow: wrap             # Retour à la ligne automatique pour le code long
+
+format:
+  # Format HTML : idéal pour la consultation en ligne, avec navigation interactive
+  html:
+    toc: true                    # Table des matières cliquable
+    toc-depth: 3                 # Profondeur de la table des matières
+    number-sections: true        # Numérotation automatique des sections
+    theme: cosmo                 # Thème visuel (cosmo, flatly, journal, etc.)
+    code-fold: true              # Permet de cacher/afficher le code
+    code-tools: true             # Ajoute des outils pour manipuler le code
+
+  # Format PDF : excellent pour l'impression et la distribution officielle
+  pdf:
+    toc: true                    # Table des matières
+    number-sections: true        # Numérotation des sections
+    colorlinks: true             # Liens en couleur
+    geometry:                    # Marges du document
+      - margin=2.5cm
+    papersize: letter            # Format lettre (ou a4 pour format européen)
+    highlight-style: tango       # Style de coloration pour le code
+    code-block-bg: true          # Fond gris pour les blocs de code
+    keep-tex: true               # Garde le fichier .tex intermédiaire (utile pour déboguer)
+    include-in-header:           # Options LaTeX pour gérer le code long
+      text: |
+        \usepackage{fvextra}
+        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,breakanywhere,commandchars=\\\{\},fontsize=\small}
+
+
+---
+
+
+## Question de Recherche
+
+Existe-t-il une corrélation entre la liberté de la presse et le niveau de corruption perçu dans les pays de l'OCDE ?
+
+## Revue de la littérature
+
+La majorité des études démontrent qu'une plus grande liberté de la presse est significativement associée à une corruption plus faible, avec des coefficients de corrélation allant de -0,57 (Breen & Gillanders, 2020)à -0,79 (Freille et al., 2005). 
+
+Il est important de noter que les pays développés dotés de démocraties établies et d'institutions judiciaires solides semblent les mieux placés pour bénéficier de cette relation.
+
+L'effet de la liberté de la presse sur la corruption est au départ insignifiant pour les pays ayant de très faibles niveaux de démocratie et devient plus positif (plus fort dans la réduction de la corruption) à mesure que la démocratie augmente (Färdigh et al., 2011). Cela suggère que la liberté de la presse et la démocratie fonctionnent comme des compléments plutôt que comme des substituts dans la lutte contre la corruption (Hamada et al., 2019).
+
+De plus, l'association entre la liberté des médias et la corruption est la plus forte dans les pays dotés de systèmes parlementaires et augmente avec l'accroissement de l'indépendance judiciaire (Färdigh et al., 2011).
+
+La littérature identifie plusieurs mécanismes de causalité par lesquels la liberté de la presse peut affecter la corruption :
+
+Le principal mécanisme identifié est le rôle de chien de garde de la presse, qui augmente les coûts de détection pour les acteurs corrompus et fournit aux citoyens l'information nécessaire pour tenir les fonctionnaires responsables (Freille et al., 2005).
+
+Les médias jouent aussi un role critique en tant que fournisseur d'information. La liberté de la presse fournit aux citoyens des informations importantes sur les déboires gouvernementales, leur permettant de mieux responsabiliser les élus. Des études révèlent que la relation entre les perceptions de la corruption par les citoyens et les évaluations des experts est environ trois fois plus forte dans les pays où les niveaux de liberté de la presse sont les plus élevés par rapport à ceux où ils sont les plus bas (Flavin & Montgomery, 2020).
+
+Ensuite, le méchanisme du biais de réflexion suggère que l'ouverture des médias augmente la visibilité de la corruption existante plutôt que de la réduire. Les jeunes démocraties pourraient être pénalisées par les indices de perception, car une liberté de la presse accrue conduit à une meilleure couverture des cas de corruption qui étaient auparavant cachés (Roca & Eda, 2010).
+
+Finalement, en regardant la causalité, les articles analysés indiquent que la direction va d'une presse plus libre vers une corruption plus faible, bien qu'il manque de consensus dans la littérature en général. Par exemple, une étude n'a trouvé aucune preuve que la corruption affecte négativement la liberté de la presse, tout en trouvant des preuves solides qu'un manque de liberté de la presse conduit à une corruption plus élevée (Ahrend, 2002).
+
+## Hypothèse
+
+Plus la liberté de la presse est élevée dans un pays, plus l'indice de perception de la corruption est faible, car les médias agissent comme un contre-pouvoir à la corruption.
+
+
+## Collecte de données
+
+Les données utilisées pour générer les graphiques sont tirées de deux organisations internationales indépendantes: Reporters Without Borders et Transparency Organisation. Leurs index sont référencés dans de multiples études sur le sujet et leur méthodologie est ouverte. Ces deux sites me permettaient d'exporter en fichier .cvs les données pour l'année 2024. J'ai aussi utilisé le site de l'OCDE afin de sélectionner les pays ciblés. 
+
+## Analyse et visualisation des données
+
+```{r}
+#| label: correlation-plot1
+#| echo: true
+#| message: false
+#| warning: false
+
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(plotly)
+
+# Load the datasets
+press_freedom <- read_delim("press_freedom_2025.csv",
+                            delim = ";",
+                            locale = locale(decimal_mark = ","),
+                            show_col_types = FALSE)
+
+ipc_ocde <- read_csv("ipc_ocde_2024.csv", show_col_types = FALSE)
+
+# Prepare the data
+# Select both English and French country names
+press_freedom_clean <- press_freedom %>%
+  select(Country_EN, Country_FR, Score) %>%
+  rename(country_en = Country_EN, press_freedom_score = Score)
+
+ipc_ocde_clean <- ipc_ocde %>%
+  select(Country, Score, Rank) %>%
+  rename(country_ipc = Country, ipc_score = Score, ipc_rank = Rank)
+
+# Harmonize English country names for merging
+press_freedom_clean <- press_freedom_clean %>%
+  mutate(country_en = case_when(
+    country_en == "United States" ~ "United States of America",
+    TRUE ~ country_en
+  ))
+
+# Join the two datasets using the English country name as the key
+merged_data <- inner_join(press_freedom_clean, ipc_ocde_clean, by = c("country_en" = "country_ipc"))
+
+# Calculate correlation for plot 1
+cor1 <- cor(merged_data$ipc_score, merged_data$press_freedom_score)
+cor_label1 <- paste0("Corrélation (r) = ", round(cor1, 3))
+
+# Create the first graphic
+# Use Country_FR for the hover text
+plot1 <- ggplot(merged_data, aes(x = ipc_score, y = press_freedom_score)) +
+  geom_point(aes(text = Country_FR)) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(
+    title = "Graphique 1: Corrélation entre le score de liberté de la presse et\nle score de perception de la corruption",
+    subtitle = "Pays de l'OCDE (2024-2025)",
+    x = "Score de Perception de la Corruption (IPC)",
+    y = "Score de Liberté de la Presse",
+    caption = cor_label1
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    plot.caption = element_text(hjust = 0.5, size = 10, face = "bold")
+  )
+
+# Convert to interactive plot and configure
+interactive_plot1 <- ggplotly(plot1, tooltip = "text") %>% config(displayModeBar = FALSE)
+interactive_plot1
+```
+<br>
+Y: Le score fourni par Reporters Without Borders varie entre 0 et 100, 100 étant une liberté de presse totale <br>
+X: Le score de l'index de corruption perçue varie entre 0 (très corrompu) et 100 (aucune corruption)
+```{r}
+#| label: correlation-plot2
+#| echo: true
+#| message: false
+#| warning: false
+
+# Calculate correlation for plot 2
+cor2 <- cor(merged_data$ipc_rank, merged_data$press_freedom_score)
+cor_label2 <- paste0("Corrélation (r) = ", round(cor2, 3))
+
+# Create the second graphic
+# Use Country_FR for the hover text
+plot2 <- ggplot(merged_data, aes(x = ipc_rank, y = press_freedom_score)) +
+  geom_point(aes(text = Country_FR)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Graphique 2: Corrélation entre le score de liberté de la presse et\nle rang de perception de la corruption",
+    subtitle = "Pays de l'OCDE (2024-2025)",
+    x = "Rang de Perception de la Corruption (IPC)",
+    y = "Score de Liberté de la Presse",
+    caption = cor_label2
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    plot.caption = element_text(hjust = 0.5, size = 10, face = "bold")
+  )
+
+# Convert to interactive plot and configure
+interactive_plot2 <- ggplotly(plot2, tooltip = "text") %>% config(displayModeBar = FALSE)
+
+interactive_plot2
+```
+<br>
+X: Le rang de l'index de corruption classe 180 pays, avec le rang 1 représentant le pays le moins corrompu.
+
+### Analyse
+
+Les graphiques 1 et 2 illustrent l'existence d'une corrélation entre le niveau de liberté de presse et le taux de corruption perçu dans les pays de l'OCDE. Plus un pays disposera de médias indépendants, plus le niveau de corruption diminuera selon ces mesures. La variale dépendante est le niveau de corruption perçue et la variable indépendante le niveau de liberté de presse. Le graphique 1 présente une corrélation linéaire positive en comparant le score de corruption perçue de l'organisation Transparency International et le score de liberté de presse attribué par Reporter Without Borders. Le graphique 2 quant à lui utilise le rang des pays au lieu du score en matière de corruption. Un rang plus petit indiquera un score élevé alors qu'un rang très élevé indiquera un faible score. La régression linéaire est donc négative, car les pays ayant des bons scores en terme de liberté de presse seront classés en premier dans le graphique. Les deux graphiques soutiennent l'hypothèse proposée et sont concordant ensemble pour ne être biaisé en présentant seulement des scores sans faire de référence au rang global.
+
+## Discussion
+
+Les résultats présentés par les graphiques confirment l'hypothèse et sont en accord avec la littérature scientifique évaluée au cours de cette recherche. La corrélation négative observée entre la liberté de la presse et la corruption perçue est modérée à forte. 
+
+Les index utilisés (IPC et indice de la liberté de la presse) sont fournis par des organismes reconnus, leur méthodologie est transparente et leur validité est établie dans le domaine. La corrélation observée est donc issue de données actuelles et fiables. 
+
+Les observations pour les pays de l'OCDE montrent que les nations les plus démocratisées, comme le Danemark (classé au premier rang), la Suède et la Norvège, possèdent des médias très indépendants et possèdent un taux de corruption perçue très bas. L'Union européenne et le Canada, dans leur ensemble, se positionnent comme des leaders en la matière.
+
+Ces résultats sont conformes à l'idée, soulevée dans la revue de littérature, selon laquelle le niveau de démocratie et la liberté de la presse sont des compléments indispensables dans la lutte contre la corruption. La présence de l'un sans l'autre ne serait pas suffisante, ce qui suggère qu'une analyse multivariée incluant les deux facteurs révélerait des résultats encore plus précis.
+
+De plus, la littérature suggère fortement que le lien de causalité examiné dans les graphiques, c'est-à-dire que la liberté de presse a un effet causal sur le niveau de de corruption perçue, et non l'inverse.
+
+Cependant, les données recueillies ont certaines limites. La plus importante est le fait que l'index de corruption recense la corruption perçue et non la corruption réelle. Cette lacune est explicable, car seulement une portion de la corruption est exposée par les médias et donc avoir un index de la corruption réelle est impossible avec les moyens actuels. Néanmoins, cette faille nous rappelle qu'un pays avec un score élevé comme le Danemark n'est pas nécessairement exempt de corruption. De plus, certains pays comme le Portugal et l'Israël sont très éloignés de la droite de régression, ce qui suggère que l'explication fournie n'est pas suffisante, voire incorrecte dans certains cas. Enfin, pour valider les données, une analyse subséquente pourrait utiliser d'autres index disponibles afin de comparer les résultats et voir s'ils correspondent. 
+   
+## Choix des outils utilisés
+### Justification générale
+
+Tous les outils sont des outils qui nous sont soit fournis gratuitement par les services de l'université Laval où ils sont en libre accès sur le web; aucun des outils présenté n'est payant pour un étudiant de l'université. La plupart sont des logiciels propriétaires, mais certains sont Open Source (Zotero). Si possible j'aurais aimé utiliser d'autre outils Open Source comme celui présenté par votre collègue Antoine Lemor (LLM tool), cependant  j'ai été restreint dans le temps. L'idée générale derrière l'utilisation des outils utilisée et leur apport complémentaire et non subsitutif à mon travail. Ils viennent combler certains besoins, par exemple trouvent des sources pour moi et les résument, mais le contenu est le produit de mon travail et est perfectionné grâce à tous ces outils. Ils permettent de préciser et rendre un travail fini beaucoup plus appréciable, toutefois j'essaye d'en faire une utilisation complémentaire tant que possible. 
+
+#### Question de recherche et hypothèse
+
+Afin de reformuler et peaufiner ma question de recherche et mon hypothèse j'ai utilisé l'outil Consensus et Gemini. Ceux-ci aussi m'ont permis de m'assurer de l'importance du sujet et sa place dans le milieu académique. 
+
+#### Revue de littérature
+
+J'ai utilisé Elicit et Consensus pour compiler la littérature existante et ensuite sélectionner les sources regardant mon sujet le plus précisément. J'ai aussi utilisé Google Scholar pour m'assurer de la pertinence des sources.
+
+#### Collecte de données
+
+Pour collecter les données, j'ai exporté les données à partir des bases de données en libre accès sur les sites concernés, aucun outil supplémentaire ne fut requis pour cette étape.
+
+#### Visualisation graphique
+
+L'outil principal pour la visualisation graphique fut R, en particulier ggplot2. Toutefois, Gemini CLI et Claude furent utilisés à plusieurs reprises pour corriger des bugs et aussi ajouter des éléments hors de mon champ de compétence (possibilité d'interagir avec le nuage de point pour voir le nom des pays).
+
+#### Discussion
+
+Lors de la rédaction de cette section, j'ai utilisé Overleaf afin d'avoir plus de facilité à rédiger. Puis j'ai utilisé Gemini pour peaufiner le style et enfin j'ai corrigé mes erreurs avec Antidote. 
+
+#### Bibliographie
+
+Pour automatiser mes références et ma bibliographie, j'ai utilisé Zotero et parfois Google Scholar. 
+
+
+## Bibliographie
+
+Ahrend, R. (2002). Press Freedom, Human Capital and Corruption. SSRN Electronic Journal. https://doi.org/10.2139/ssrn.620102 
+
+Breen, M., & Gillanders, R. (2020). Press Freedom and Corruption Perceptions: Is There a Reputational Premium? Politics and Governance, 8(2), 103–115. https://doi.org/10.17645/pag.v8i2.2697 
+
+Corruption Perceptions Index 2024. (2025, February 11). Transparency.Org. https://www.transparency.org/en/cpi/2024 
+
+Färdigh, M. A., Andersson, E., & Oscarsson, H. (2011, November 1). Reexamining the Relationship Between Press Freedom and Corruption. https://www.semanticscholar.org/paper/Reexamining-the-Relationship-Between-Press-Freedom-F%C3%A4rdigh-Andersson/9b4800b52824f9ee6e1c7cedf89b97f3d6c955d3 
+
+Flavin, P., & Montgomery, F. (2020). Freedom of the press and perceptions about government corruption. International Political Science Review, 41(4), 554–566. https://doi.org/10.1177/0192512119858469 
+
+Freille, S., Haque, M. E., & Kneller, R. (2005). A Contribution to the Empirics of Press Freedom and Corruption. SSRN Electronic Journal. https://doi.org/10.2139/ssrn.863805 
+
+Hamada, B. I., Abdel-Salam, A.-S. G., & Elkilany, E. A. (2019). Press freedom and corruption: An examination of the relationship. Global Media and Communication, 15(3), 303–321. https://doi.org/10.1177/1742766519871676 
+
+Index | RSF. (2024). Reporters without borders. https://rsf.org/en/index 
+
+Roca, T., & Eda. (2010). Corruption Perceptions: The Trap of Democratization, a Panel Data Analysis (SSRN Scholarly Paper No. 1725434). Social Science Research Network. https://doi.org/10.2139/ssrn.1725434 
+
