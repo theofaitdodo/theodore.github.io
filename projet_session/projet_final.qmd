@@ -18,25 +18,81 @@ format:
     code-fold: true              # Permet de cacher/afficher le code
     code-tools: true             # Ajoute des outils pour manipuler le code
 
-  # Format PDF : excellent pour l'impression et la distribution officielle
-  pdf:
-    toc: true                    # Table des matières
-    number-sections: true        # Numérotation des sections
-    colorlinks: true             # Liens en couleur
-    geometry:                    # Marges du document
-      - margin=2.5cm
-    papersize: letter            # Format lettre (ou a4 pour format européen)
-    highlight-style: tango       # Style de coloration pour le code
-    code-block-bg: true          # Fond gris pour les blocs de code
-    keep-tex: true               # Garde le fichier .tex intermédiaire (utile pour déboguer)
-    include-in-header:           # Options LaTeX pour gérer le code long
-      text: |
-        \usepackage{fvextra}
-        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,breakanywhere,commandchars=\\\{\},fontsize=\small}
-
-
 ---
 
+<!-- Dark Mode Toggle -->
+<button id="dark-mode-toggle" style="position: fixed; top: 10px; left: 10px; z-index: 1000; padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; cursor: pointer;">
+  Mode Sombre
+</button>
+
+<style>
+  body.dark-mode {
+    background-color: #222;
+    color: #eee;
+  }
+  body.dark-mode a {
+    color: #80a0ff;
+  }
+  body.dark-mode .quarto-sidebar, 
+  body.dark-mode .quarto-toc-toggle,
+  body.dark-mode #quarto-toc.sidebar {
+    background-color: #1a1a1a;
+  }
+    body.dark-mode div.quarto-about-solana .about-entity {
+    color: #eee;
+  }
+  body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+    color: #eee;
+  }
+  body.dark-mode code.sourceCode {
+    background-color: #333;
+    color: #ddd;
+  }
+  body.dark-mode .fl-callout-title { /* For code block titles */
+    color: #eee;
+  }
+  body.dark-mode hr {
+    border-color: #444;
+  }
+</style>
+
+<script>
+  (function() {
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    }
+
+    // Apply theme on initial load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    }
+
+    // Wait for the DOM to be fully loaded to add the event listener
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('dark-mode-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', function() {
+          let newTheme = 'light';
+          if (!document.body.classList.contains('dark-mode')) {
+            newTheme = 'dark';
+          }
+          localStorage.setItem('theme', newTheme);
+          applyTheme(newTheme);
+        });
+      }
+    });
+  })();
+</script>
+<hr> <!-- Small line -->
+<p style="text-align: center;">
+  <a href="../index_fr.html">Retour au site web</a>
+</p>
+<hr>
 
 ## Question de Recherche
 
@@ -199,7 +255,7 @@ Cependant, les données recueillies ont certaines limites. La plus importante es
 ## Choix des outils utilisés
 ### Justification générale
 
-Tous les outils sont des outils qui nous sont soit fournis gratuitement par les services de l'université Laval où ils sont en libre accès sur le web; aucun des outils présenté n'est payant pour un étudiant de l'université. La plupart sont des logiciels propriétaires, mais certains sont Open Source (Zotero). Si possible j'aurais aimé utiliser d'autre outils Open Source comme celui présenté par votre collègue Antoine Lemor (LLM tool), cependant  j'ai été restreint dans le temps. L'idée générale derrière l'utilisation des outils utilisée et leur apport complémentaire et non subsitutif à mon travail. Ils viennent combler certains besoins, par exemple trouvent des sources pour moi et les résument, mais le contenu est le produit de mon travail et est perfectionné grâce à tous ces outils. Ils permettent de préciser et rendre un travail fini beaucoup plus appréciable, toutefois j'essaye d'en faire une utilisation complémentaire tant que possible. 
+Tous les outils sont des outils qui nous furent, soit fournis gratuitement par les services de l'université Laval, soit en libre accès sur le web; aucun des outils présenté n'est payant pour un étudiant de l'université. La plupart sont des logiciels propriétaires, mais certains sont Open Source (Zotero). Si possible j'aurais aimé utiliser d'autre outils Open Source comme celui présenté par votre collègue Antoine Lemor (LLM tool), cependant  j'ai été restreint dans le temps. L'idée générale derrière l'utilisation des outils utilisés est leur apport complémentaire et non subsitutif à mon travail. Ils viennent combler certains besoins, par exemple trouvent des sources pour moi et les résument, mais le contenu est le produit de mon travail et est perfectionné grâce à tous ces outils. Ils permettent de préciser et rendre un travail fini beaucoup plus appréciable, toutefois j'essaye d'en faire une utilisation complémentaire tant que possible. 
 
 #### Question de recherche et hypothèse
 
